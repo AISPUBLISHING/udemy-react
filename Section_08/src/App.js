@@ -17,10 +17,10 @@ function App() {
   };
 
   return (
-    <div>
+    <>
       <UserForm onSaveUserData={saveUserDataHandler} />
       <UserList userData={userData} />
-    </div>
+    </>
   );
 }
 
