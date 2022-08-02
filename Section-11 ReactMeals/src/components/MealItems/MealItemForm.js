@@ -3,12 +3,12 @@ import classes from "./MealItemForm.module.css";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
 
-const MealItemForm = () => {
+const MealItemForm = (props) => {
   const [mealCount, setMealCount] = useState("1");
 
   const onButtonHandler = (event) => {
     event.preventDefault();
-    console.log("meal count", mealCount);
+    props.onFormSubmit(mealCount);
   };
 
   const mealChangeHandler = (event) => {
@@ -19,11 +19,15 @@ const MealItemForm = () => {
     <form className={classes.form}>
       <Input
         label="Amount"
+        input={{
+          id: 'amount_' + props.id, // this changed!
+          type: "number",
+          min: "1",
+          step: "1",
+          defaultValue: "1",
+        }}
         value={+mealCount}
-        onChange={mealChangeHandler}
-        type="number"
-        min="1"
-        step="1"
+        onChange={mealChangeHandler}   
       />
       <Button text="+ Add" onClick={onButtonHandler} />
     </form>
