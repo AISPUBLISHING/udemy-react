@@ -1,35 +1,45 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import classes from "./MealItemForm.module.css";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
 
 const MealItemForm = (props) => {
-  const [mealCount, setMealCount] = useState("1");
+  const [amountIsValid, setAmountIsValid] = useState(true);
+  const amountInputRef = useRef();
 
-  const onButtonHandler = (event) => {
+  const onSubmitHandler = (event) => {
     event.preventDefault();
-    props.onFormSubmit(mealCount);
-  };
+    console.log(amountInputRef.current.value)
+    const enteredAmount = amountInputRef.current.value;
+    const enteredAmountNumber = +enteredAmount;
 
-  const mealChangeHandler = (event) => {
-    setMealCount(event.target.value);
+    if (
+      enteredAmount.trim().length === 0 ||
+      enteredAmountNumber < 1 ||
+      enteredAmountNumber > 5
+    ) {
+      setAmountIsValid(false);
+      return;
+    }
+    props.onAddToCart(enteredAmountNumber);
   };
 
   return (
-    <form className={classes.form}>
+    <form className={classes.form} onSubmit={onSubmitHandler}>
       <Input
+        ref={amountInputRef}
         label="Amount"
         input={{
-          id: 'amount_' + props.id, // this changed!
+          id: "amount_" + props.id, // this changed!
           type: "number",
           min: "1",
+          max: "5",
           step: "1",
           defaultValue: "1",
         }}
-        value={+mealCount}
-        onChange={mealChangeHandler}   
       />
-      <Button text="+ Add" onClick={onButtonHandler} />
+      <Button text="+ Add" />
+      {!amountIsValid && <p>Please enter valid Input</p>}
     </form>
   );
 };
