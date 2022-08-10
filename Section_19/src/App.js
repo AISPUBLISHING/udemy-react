@@ -25,7 +25,7 @@ function App() {
         })
       );
       const response = await fetch(
-        'https://react-http-69596-default-rtdb.firebaseio.com/cart.json',
+        'https://react-http-69596-default-rtdb.firebaseio.co/cat.json',
         {
           method: 'PUT',
           body: JSON.stringify(cart),
